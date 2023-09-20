@@ -37,3 +37,31 @@ get("/square_root/results") do
   @the_result = Math.sqrt(@the_num).to_f
   erb(:square_root_results)
 end
+
+get("/payment/new") do
+  erb(:payment_calc)
+end
+
+get("/payment/results") do
+  @principal = params.fetch("users_principal").to_f
+  @apr = params.fetch("users_apr").to_f / 100
+  @years = params.fetch("users_year").to_f * 12
+
+  @top = @apr * (@principal)
+  @bottom = 1 - ((1 + @apr) ** (-1 * @years))
+
+  @payment = @top / @bottom
+  erb(:payment_calc_results)
+end
+
+get("/random/new") do
+  erb(:random)
+end
+
+get("/random/results") do
+  @min = params.fetch("users_min").to_f
+  @max = params.fetch("users_max").to_f
+
+  @random_number = rand(@min..@max)
+  erb(:random_results)
+end
